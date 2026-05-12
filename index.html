@@ -705,33 +705,16 @@
                 language: navigator.language
             };
 
-            // Envoyer au serveur
-            try {
-                const response = await fetch('record_visit.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(visitData)
-                });
-                if (response.ok) {
-                    console.log('Visit recorded successfully');
-                }
-            } catch (error) {
-                console.log('Could not record visit to server:', error);
-            }
-
-            // Stocker localement en localStorage aussi
+            // Stocker en localStorage (JSON)
             const visits = JSON.parse(localStorage.getItem('visits') || '[]');
             visits.push(visitData);
-            localStorage.setItem('visits', JSON.stringify(visits));
-
-            // Stocker le consentement RGPD
-            localStorage.setItem('rgpdConsent', JSON.stringify({
-                accepted: false,
-                timestamp: timestamp,
-                ip: ip
-            }));
+            
+            // Nettoyer les données > 90 jours
+            const ninetyDaysAgo = Date.now() - (90 * 24 * 60 * 60 * 1000);
+            const cleanedVisits = visits.filter(v => new Date(v.timestamp).getTime() > ninetyDaysAgo);
+            
+            localStorage.setItem('visits', JSON.stringify(cleanedVisits));
+            console.log('Visit recorded:', visitData);
         }
 
         function openRGPDModal() {
@@ -779,6 +762,28 @@
             }
             await recordVisit();
         });
+
+        // Fonction pour exporter les visites en JSON
+        window.exportVisitsData = function() {
+            const visits = JSON.parse(localStorage.getItem('visits') || '[]');
+            const jsonString = JSON.stringify(visits, null, 2);
+            const blob = new Blob([jsonString], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `visits_${new Date().toISOString().slice(0, 10)}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        };
+
+        // Fonction pour voir les données dans la console
+        window.viewVisitsData = function() {
+            const visits = JSON.parse(localStorage.getItem('visits') || '[]');
+            console.log('=== VISITES ENREGISTRÉES ===');
+            console.log(JSON.stringify(visits, null, 2));
+            console.log('Total:', visits.length, 'visites');
+            return visits;
+        };
     </script>
 </body>
 </html>
