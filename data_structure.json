@@ -1,0 +1,48 @@
+{
+  "info": {
+    "description": "Structure des données collectées - Exemple",
+    "version": "1.0",
+    "rgpd_compliant": true,
+    "data_retention": "90 days"
+  },
+  "example_visit": {
+    "sessionId": "sess_1715517000000_abc123def",
+    "ip": "192.168.1.100",
+    "timestamp": "2026-05-12T15:10:00.000Z",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+    "referrer": "direct",
+    "language": "fr-FR",
+    "recorded_at": "2026-05-12T15:10:00+02:00"
+  },
+  "fields_description": {
+    "sessionId": "Identifiant unique de session généré côté client",
+    "ip": "Adresse IP publique de l'utilisateur (collectée via ipify API)",
+    "timestamp": "Date et heure d'accès à la page (ISO 8601)",
+    "userAgent": "Informations sur le navigateur et l'OS de l'utilisateur",
+    "referrer": "Source de provenance (direct, moteur de recherche, etc.)",
+    "language": "Langue préférée du navigateur",
+    "recorded_at": "Timestamp du serveur lors de l'enregistrement"
+  },
+  "rgpd_compliance": {
+    "legal_basis": "Article 6.1.a du RGPD (consentement explicite)",
+    "purposes": [
+      "Analyser l'engagement des utilisateurs",
+      "Améliorer l'expérience utilisateur",
+      "Respecter les obligations légales"
+    ],
+    "retention_period": "90 jours à partir de la collecte",
+    "user_rights": [
+      "Droit d'accès",
+      "Droit de rectification",
+      "Droit à l'effacement",
+      "Droit de limitation",
+      "Droit à la portabilité",
+      "Droit d'opposition"
+    ]
+  },
+  "security_notes": {
+    "data_encrypted": false,
+    "recommendation": "Utiliser HTTPS en production",
+    "file_permissions": "Restreindre l'accès au fichier visits.json"
+  }
+}

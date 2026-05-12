@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lancement Exclusif</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=Playfair+Display:ital,wght@1,400&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --gold: #c9a84c;
+            --gold-light: #f0d080;
+            --gold-dim: #7a5e28;
+            --ink: #080808;
+            --cream: #f5efe0;
+            --red-accent: #b03030;
+        }
+
+        html, body {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            background: var(--ink);
+            color: var(--cream);
+            font-family: 'DM Mono', monospace;
+        }
+
+        /* ── NOISE LAYER ── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+            opacity: 0.04;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        /* ── RADIAL VIGNETTE ── */
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(ellipse 80% 80% at 50% 50%, transparent 40%, rgba(0,0,0,0.7) 100%);
+            pointer-events: none;
+            z-index: 99;
+        }
+
+        /* ── ANIMATED BACKGROUND LINES ── */
+        .bg-lines {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            z-index: 0;
+        }
+        .bg-lines span {
+            position: absolute;
+            display: block;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(201,168,76,0.12), transparent);
+            animation: lineSweep 8s ease-in-out infinite;
+        }
+        .bg-lines span:nth-child(1) { top: 20%; width: 100%; animation-delay: 0s; }
+        .bg-lines span:nth-child(2) { top: 40%; width: 100%; animation-delay: 2s; }
+        .bg-lines span:nth-child(3) { top: 60%; width: 100%; animation-delay: 4s; }
+        .bg-lines span:nth-child(4) { top: 80%; width: 100%; animation-delay: 6s; }
+
+        @keyframes lineSweep {
+            0%, 100% { opacity: 0; transform: scaleX(0); transform-origin: left; }
+            50% { opacity: 1; transform: scaleX(1); transform-origin: left; }
+        }
+
+        /* ── CORNER ORNAMENTS ── */
+        .corner {
+            position: fixed;
+            width: 80px;
+            height: 80px;
+            z-index: 50;
+        }
+        .corner::before, .corner::after {
+            content: '';
+            position: absolute;
+            background: var(--gold-dim);
+        }
+        .corner::before { width: 100%; height: 1px; }
+        .corner::after { width: 1px; height: 100%; }
+        .corner-tl { top: 24px; left: 24px; }
+        .corner-tl::before { top: 0; left: 0; }
+        .corner-tl::after { top: 0; left: 0; }
+        .corner-tr { top: 24px; right: 24px; transform: scaleX(-1); }
+        .corner-tr::before { top: 0; left: 0; }
+        .corner-tr::after { top: 0; left: 0; }
+        .corner-bl { bottom: 24px; left: 24px; transform: scaleY(-1); }
+        .corner-bl::before { top: 0; left: 0; }
+        .corner-bl::after { top: 0; left: 0; }
+        .corner-br { bottom: 24px; right: 24px; transform: scale(-1); }
+        .corner-br::before { top: 0; left: 0; }
+        .corner-br::after { top: 0; left: 0; }
+
+        /* ── MAIN LAYOUT ── */
+        .stage {
+            position: relative;
+            z-index: 10;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+        }
+
+        /* ── HEADER BADGE ── */
+        .badge {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.62rem;
+            font-weight: 500;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--gold);
+            border: 1px solid var(--gold-dim);
+            padding: 6px 20px;
+            margin-bottom: 40px;
+            position: relative;
+            animation: fadeSlideDown 1s ease both;
+        }
+        .badge::before, .badge::after {
+            content: '◆';
+            font-size: 0.4rem;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gold-dim);
+        }
+        .badge::before { left: -14px; }
+        .badge::after { right: -14px; }
+
+        /* ── MAIN TITLE ── */
+        .headline {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(3.5rem, 10vw, 8rem);
+            letter-spacing: 0.06em;
+            line-height: 0.9;
+            text-align: center;
+            color: var(--cream);
+            animation: fadeSlideDown 1s 0.2s ease both;
+            position: relative;
+        }
+        .headline .accent {
+            display: block;
+            color: var(--gold);
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: clamp(1.8rem, 4vw, 3.5rem);
+            letter-spacing: 0.02em;
+            margin-top: 4px;
+        }
+
+        /* ── DIVIDER ── */
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 32px 0;
+            width: min(500px, 90vw);
+            animation: fadeIn 1s 0.4s ease both;
+        }
+        .divider-line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold-dim));
+        }
+        .divider-line:last-child {
+            background: linear-gradient(270deg, transparent, var(--gold-dim));
+        }
+        .divider-diamond {
+            width: 6px;
+            height: 6px;
+            background: var(--gold);
+            transform: rotate(45deg);
+        }
+
+        /* ── COUNTDOWN ── */
+        #countdown {
+            display: flex;
+            gap: clamp(12px, 3vw, 32px);
+            align-items: flex-start;
+            animation: fadeSlideUp 1s 0.5s ease both;
+        }
+
+        .time-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .number-wrap {
+            position: relative;
+            width: clamp(70px, 15vw, 110px);
+            height: clamp(80px, 17vw, 120px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(201,168,76,0.04);
+            border: 1px solid rgba(201,168,76,0.15);
+            overflow: hidden;
+        }
+        .number-wrap::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(201,168,76,0.06) 0%, transparent 50%);
+        }
+
+        .number {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(2.8rem, 8vw, 5rem);
+            color: var(--gold-light);
+            letter-spacing: 0.02em;
+            line-height: 1;
+            position: relative;
+            z-index: 1;
+            transition: transform 0.15s ease, opacity 0.15s ease;
+        }
+        .number.flip {
+            animation: digitFlip 0.25s ease;
+        }
+
+        @keyframes digitFlip {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            30% { transform: translateY(-8px) scale(0.95); opacity: 0; }
+            60% { transform: translateY(8px) scale(0.95); opacity: 0; }
+            100% { transform: translateY(0) scale(1); opacity: 1; }
+        }
+
+        .sep {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(2rem, 6vw, 4rem);
+            color: var(--gold-dim);
+            padding-top: 16px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.2; }
+        }
+
+        .label {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.55rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--gold-dim);
+            margin-top: 10px;
+        }
+
+        /* ── STATUS LINE ── */
+        .status {
+            margin-top: 36px;
+            font-family: 'DM Mono', monospace;
+            font-size: 0.68rem;
+            letter-spacing: 0.2em;
+            color: rgba(245,239,224,0.3);
+            text-transform: uppercase;
+            animation: fadeIn 1s 0.8s ease both;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .status-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--red-accent);
+            animation: blink 1.2s ease-in-out infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; box-shadow: 0 0 6px var(--red-accent); }
+            50% { opacity: 0.3; box-shadow: none; }
+        }
+
+        /* ── READY STATE ── */
+        #ready-state {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 28px;
+            animation: fadeSlideUp 0.8s ease both;
+        }
+
+        .ready-headline {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            letter-spacing: 0.1em;
+            color: var(--gold-light);
+            text-align: center;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px 48px;
+            font-family: 'DM Mono', monospace;
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--ink);
+            background: var(--gold);
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+            transition: color 0.3s ease;
+        }
+        .btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--gold-light);
+            transform: translateX(-100%);
+            transition: transform 0.4s ease;
+        }
+        .btn:hover::before { transform: translateX(0); }
+        .btn span { position: relative; z-index: 1; }
+        .btn svg { position: relative; z-index: 1; transition: transform 0.3s ease; }
+        .btn:hover svg { transform: translateX(4px); }
+
+        /* ── KEYFRAMES ── */
+        @keyframes fadeSlideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* ── BOTTOM DATE ── */
+        .bottom-info {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'DM Mono', monospace;
+            font-size: 0.58rem;
+            letter-spacing: 0.25em;
+            color: rgba(201,168,76,0.3);
+            text-transform: uppercase;
+            z-index: 50;
+            white-space: nowrap;
+        }
+
+        /* ── GLOW ── */
+        .glow-orb {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(201,168,76,0.05) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 1;
+            animation: breathe 6s ease-in-out infinite;
+        }
+        @keyframes breathe {
+            0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 1; transform: translate(-50%, -50%) scale(1.15); }
+        }
+
+        /* ── RGPD MODAL ── */
+        .rgpd-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 200;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(2px);
+            animation: fadeIn 0.3s ease;
+        }
+        .rgpd-modal.active {
+            display: flex;
+        }
+        .rgpd-content {
+            background: var(--ink);
+            border: 1px solid var(--gold-dim);
+            padding: 40px;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            animation: fadeSlideUp 0.4s ease;
+        }
+        .rgpd-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--gold);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .rgpd-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.8rem;
+            color: var(--gold);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .rgpd-text {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--cream);
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+        .rgpd-buttons {
+            display: flex;
+            gap: 16px;
+            margin-top: 30px;
+        }
+        .rgpd-btn {
+            flex: 1;
+            padding: 12px 24px;
+            font-family: 'DM Mono', monospace;
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            border: 1px solid var(--gold-dim);
+            background: transparent;
+            color: var(--gold);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .rgpd-btn:hover {
+            background: rgba(201,168,76,0.1);
+            border-color: var(--gold);
+        }
+        .rgpd-btn.accept {
+            background: var(--gold);
+            color: var(--ink);
+            border-color: var(--gold);
+        }
+        .rgpd-btn.accept:hover {
+            background: var(--gold-light);
+        }
+
+        /* ── RGPD FOOTER ── */
+        .rgpd-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(8, 8, 8, 0.95);
+            border-top: 1px solid var(--gold-dim);
+            padding: 12px 24px;
+            font-family: 'DM Mono', monospace;
+            font-size: 0.65rem;
+            color: rgba(201,168,76,0.6);
+            text-align: center;
+            z-index: 150;
+            display: none;
+        }
+        .rgpd-footer.active {
+            display: block;
+        }
+        .rgpd-footer a {
+            color: var(--gold);
+            text-decoration: none;
+            border-bottom: 1px solid var(--gold);
+        }
+        .rgpd-footer a:hover {
+            color: var(--gold-light);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-lines">
+        <span></span><span></span><span></span><span></span>
+    </div>
+
+    <div class="glow-orb"></div>
+
+    <div class="corner corner-tl"></div>
+    <div class="corner corner-tr"></div>
+    <div class="corner corner-bl"></div>
+    <div class="corner corner-br"></div>
+
+    <!-- RGPD Modal -->
+    <div class="rgpd-modal" id="rgpdModal">
+        <div class="rgpd-content">
+            <button class="rgpd-close" id="rgpdClose">&times;</button>
+            <h2 class="rgpd-title">Protection des données</h2>
+            
+            <div class="rgpd-text">
+                <strong>Collecte de données personnelles</strong><br>
+                Cette page collecte les informations suivantes lors de votre visite :<br>
+                • Votre adresse IP<br>
+                • Date et heure d'accès<br>
+                • Identifiant de session<br><br>
+            </div>
+
+            <div class="rgpd-text">
+                <strong>Finalités du traitement</strong><br>
+                Ces données sont utilisées pour :<br>
+                • Analyser l'engagement des utilisateurs<br>
+                • Améliorer l'expérience utilisateur<br>
+                • Respecter les obligations légales<br><br>
+            </div>
+
+            <div class="rgpd-text">
+                <strong>Base légale (RGPD)</strong><br>
+                Le traitement de vos données repose sur votre consentement explicite (article 6.1.a du RGPD).<br><br>
+            </div>
+
+            <div class="rgpd-text">
+                <strong>Durée de conservation</strong><br>
+                Les données sont conservées pendant 90 jours à partir de la date de collecte, après quoi elles sont supprimées automatiquement.<br><br>
+            </div>
+
+            <div class="rgpd-text">
+                <strong>Vos droits</strong><br>
+                Conformément au RGPD, vous disposez des droits suivants :<br>
+                • Droit d'accès à vos données<br>
+                • Droit de rectification<br>
+                • Droit à l'effacement ("droit à l'oubli")<br>
+                • Droit de limitation du traitement<br>
+                • Droit à la portabilité des données<br>
+                • Droit d'opposition<br><br>
+                Pour exercer ces droits, contactez-nous via le formulaire de contact.
+            </div>
+
+            <div class="rgpd-buttons">
+                <button class="rgpd-btn" id="rgpdReject">Refuser</button>
+                <button class="rgpd-btn accept" id="rgpdAccept">Accepter</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- RGPD Footer Link -->
+    <div class="rgpd-footer" id="rgpdFooter">
+        <a href="#" id="rgpdLink">Politique de confidentialité & RGPD</a>
+    </div>
+
+    <main class="stage">
+
+        <div id="waiting-state">
+            <div class="badge">Accès exclusif</div>
+
+            <h1 class="headline">
+                Bientôt
+                <span class="accent">disponible</span>
+            </h1>
+
+            <div class="divider">
+                <div class="divider-line"></div>
+                <div class="divider-diamond"></div>
+                <div class="divider-line"></div>
+            </div>
+
+            <div id="countdown">
+                <div class="time-block">
+                    <div class="number-wrap"><span class="number" id="days">00</span></div>
+                    <span class="label">Jours</span>
+                </div>
+                <div class="sep">:</div>
+                <div class="time-block">
+                    <div class="number-wrap"><span class="number" id="hours">00</span></div>
+                    <span class="label">Heures</span>
+                </div>
+                <div class="sep">:</div>
+                <div class="time-block">
+                    <div class="number-wrap"><span class="number" id="minutes">00</span></div>
+                    <span class="label">Min</span>
+                </div>
+                <div class="sep">:</div>
+                <div class="time-block">
+                    <div class="number-wrap"><span class="number" id="seconds">00</span></div>
+                    <span class="label">Sec</span>
+                </div>
+            </div>
+
+            <p class="status">
+                <span class="status-dot"></span>
+                Disponible le 12 mai 2026 — 18h30
+            </p>
+        </div>
+
+        <div id="ready-state">
+            <div class="badge">Contenu déverrouillé</div>
+            <p class="ready-headline">C'est l'heure.</p>
+            <div class="divider" style="margin:0">
+                <div class="divider-line"></div>
+                <div class="divider-diamond"></div>
+                <div class="divider-line"></div>
+            </div>
+            <a href="12maintmts.pdf" id="downloadBtn" class="btn" download>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                <span>Télécharger le fichier</span>
+            </a>
+        </div>
+
+    </main>
+
+    <div class="bottom-info" id="bottomInfo">12 . 05 . 2026 — 17:30</div>
+
+    <script>
+        const targetDate = new Date(2026, 4, 12, 18, 0, 0).getTime();
+
+        const els = {
+            days: document.getElementById('days'),
+            hours: document.getElementById('hours'),
+            minutes: document.getElementById('minutes'),
+            seconds: document.getElementById('seconds'),
+            waiting: document.getElementById('waiting-state'),
+            ready: document.getElementById('ready-state'),
+            bottom: document.getElementById('bottomInfo'),
+        };
+
+        const prev = { d: null, h: null, m: null, s: null };
+
+        function setFlip(el, val) {
+            el.classList.remove('flip');
+            void el.offsetWidth;
+            el.innerText = val;
+            el.classList.add('flip');
+        }
+
+        function update() {
+            const diff = targetDate - Date.now();
+
+            if (diff <= 0) {
+                els.waiting.style.display = 'none';
+                els.ready.style.display = 'flex';
+                els.bottom.style.display = 'none';
+                clearInterval(timer);
+                return;
+            }
+
+            const d = Math.floor(diff / 86400000).toString().padStart(2, '0');
+            const h = Math.floor((diff % 86400000) / 3600000).toString().padStart(2, '0');
+            const m = Math.floor((diff % 3600000) / 60000).toString().padStart(2, '0');
+            const s = Math.floor((diff % 60000) / 1000).toString().padStart(2, '0');
+
+            if (d !== prev.d) { setFlip(els.days, d); prev.d = d; }
+            if (h !== prev.h) { setFlip(els.hours, h); prev.h = h; }
+            if (m !== prev.m) { setFlip(els.minutes, m); prev.m = m; }
+            if (s !== prev.s) { setFlip(els.seconds, s); prev.s = s; }
+        }
+
+        const timer = setInterval(update, 500);
+        update();
+
+        // ── RGPD & DATA COLLECTION ──
+        const rgpdModal = document.getElementById('rgpdModal');
+        const rgpdFooter = document.getElementById('rgpdFooter');
+        const rgpdClose = document.getElementById('rgpdClose');
+        const rgpdLink = document.getElementById('rgpdLink');
+        const rgpdAccept = document.getElementById('rgpdAccept');
+        const rgpdReject = document.getElementById('rgpdReject');
+
+        function getIPAddress() {
+            return fetch('https://api.ipify.org?format=json')
+                .then(response => response.json())
+                .then(data => data.ip)
+                .catch(() => 'Unknown');
+        }
+
+        function generateSessionId() {
+            return 'sess_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        }
+
+        async function recordVisit() {
+            const ip = await getIPAddress();
+            const timestamp = new Date().toISOString();
+            const sessionId = generateSessionId();
+
+            const visitData = {
+                sessionId: sessionId,
+                ip: ip,
+                timestamp: timestamp,
+                userAgent: navigator.userAgent,
+                referrer: document.referrer || 'direct',
+                language: navigator.language
+            };
+
+            // Envoyer au serveur
+            try {
+                const response = await fetch('record_visit.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(visitData)
+                });
+                if (response.ok) {
+                    console.log('Visit recorded successfully');
+                }
+            } catch (error) {
+                console.log('Could not record visit to server:', error);
+            }
+
+            // Stocker localement en localStorage aussi
+            const visits = JSON.parse(localStorage.getItem('visits') || '[]');
+            visits.push(visitData);
+            localStorage.setItem('visits', JSON.stringify(visits));
+
+            // Stocker le consentement RGPD
+            localStorage.setItem('rgpdConsent', JSON.stringify({
+                accepted: false,
+                timestamp: timestamp,
+                ip: ip
+            }));
+        }
+
+        function openRGPDModal() {
+            rgpdModal.classList.add('active');
+        }
+
+        function closeRGPDModal() {
+            rgpdModal.classList.remove('active');
+        }
+
+        rgpdClose.addEventListener('click', closeRGPDModal);
+        rgpdLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            openRGPDModal();
+        });
+
+        rgpdReject.addEventListener('click', async () => {
+            localStorage.setItem('rgpdConsent', JSON.stringify({
+                accepted: false,
+                timestamp: new Date().toISOString(),
+                ip: await getIPAddress()
+            }));
+            closeRGPDModal();
+            rgpdFooter.classList.add('active');
+        });
+
+        rgpdAccept.addEventListener('click', async () => {
+            const ip = await getIPAddress();
+            localStorage.setItem('rgpdConsent', JSON.stringify({
+                accepted: true,
+                timestamp: new Date().toISOString(),
+                ip: ip
+            }));
+            closeRGPDModal();
+            rgpdFooter.classList.add('active');
+        });
+
+        // Initialisation au chargement
+        window.addEventListener('load', async () => {
+            const consent = localStorage.getItem('rgpdConsent');
+            if (!consent) {
+                openRGPDModal();
+            } else {
+                rgpdFooter.classList.add('active');
+            }
+            await recordVisit();
+        });
+    </script>
+</body>
+</html>
