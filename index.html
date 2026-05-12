@@ -492,6 +492,274 @@
         .rgpd-footer a:hover {
             color: var(--gold-light);
         }
+
+        /* ── CODE MODAL ── */
+        .code-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 200;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(2px);
+            animation: fadeIn 0.3s ease;
+        }
+        .code-modal.active {
+            display: flex;
+        }
+        .code-content {
+            background: var(--ink);
+            border: 1px solid var(--gold-dim);
+            padding: 40px;
+            max-width: 500px;
+            position: relative;
+            animation: fadeSlideUp 0.4s ease;
+            text-align: center;
+        }
+        .code-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--gold);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .code-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.5rem;
+            color: var(--gold);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .code-input-wrapper {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+        .code-input {
+            padding: 12px 16px;
+            font-family: 'DM Mono', monospace;
+            font-size: 1.2rem;
+            background: rgba(201,168,76,0.04);
+            border: 1px solid var(--gold-dim);
+            color: var(--gold);
+            text-align: center;
+            letter-spacing: 0.2em;
+            max-width: 300px;
+            width: 100%;
+        }
+        .code-input::placeholder {
+            color: rgba(201,168,76,0.3);
+        }
+        .code-input:focus {
+            outline: none;
+            border-color: var(--gold);
+            background: rgba(201,168,76,0.1);
+        }
+        .code-error {
+            color: var(--red-accent);
+            font-size: 0.75rem;
+            margin-bottom: 15px;
+            min-height: 16px;
+            display: none;
+        }
+        .code-error.show {
+            display: block;
+        }
+        .code-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+        .code-btn {
+            padding: 12px 24px;
+            font-family: 'DM Mono', monospace;
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            border: 1px solid var(--gold-dim);
+            background: transparent;
+            color: var(--gold);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .code-btn:hover {
+            background: rgba(201,168,76,0.1);
+            border-color: var(--gold);
+        }
+        .code-btn.submit {
+            background: var(--gold);
+            color: var(--ink);
+            border-color: var(--gold);
+        }
+        .code-btn.submit:hover {
+            background: var(--gold-light);
+        }
+
+        /* ── DISCLAIMER MODAL ── */
+        .disclaimer-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 200;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(2px);
+            animation: fadeIn 0.3s ease;
+        }
+        .disclaimer-modal.active {
+            display: flex;
+        }
+        .disclaimer-content {
+            background: var(--ink);
+            border: 1px solid var(--gold-dim);
+            padding: 40px;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            animation: fadeSlideUp 0.4s ease;
+        }
+        .disclaimer-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--gold);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .disclaimer-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.5rem;
+            color: var(--gold);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .disclaimer-text {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--cream);
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+        .disclaimer-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+            justify-content: center;
+        }
+        .disclaimer-btn {
+            padding: 12px 24px;
+            font-family: 'DM Mono', monospace;
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            border: 1px solid var(--gold-dim);
+            background: transparent;
+            color: var(--gold);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .disclaimer-btn:hover {
+            background: rgba(201,168,76,0.1);
+            border-color: var(--gold);
+        }
+        .disclaimer-btn.proceed {
+            background: var(--gold);
+            color: var(--ink);
+            border-color: var(--gold);
+        }
+        .disclaimer-btn.proceed:hover {
+            background: var(--gold-light);
+        }
+
+        /* ── SUCCESS MODAL ── */
+        .success-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 200;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(2px);
+            animation: fadeIn 0.3s ease;
+        }
+        .success-modal.active {
+            display: flex;
+        }
+        .success-content {
+            background: var(--ink);
+            border: 1px solid var(--gold-dim);
+            padding: 60px 40px;
+            max-width: 500px;
+            position: relative;
+            animation: fadeSlideUp 0.4s ease;
+            text-align: center;
+        }
+        .success-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: bounce 1s ease-in-out;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        .success-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .success-text {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--cream);
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        .success-btn {
+            padding: 12px 32px;
+            font-family: 'DM Mono', monospace;
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            background: var(--gold);
+            color: var(--ink);
+            border: 1px solid var(--gold);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .success-btn:hover {
+            background: var(--gold-light);
+        }
     </style>
 </head>
 <body>
@@ -563,6 +831,60 @@
         <a href="#" id="rgpdLink">Politique de confidentialité & RGPD</a>
     </div>
 
+    <!-- CODE Modal -->
+    <div class="code-modal" id="codeModal">
+        <div class="code-content">
+            <button class="code-close" id="codeClose">&times;</button>
+            <h2 class="code-title">Code d'accès requis</h2>
+            <p class="code-title" style="font-size: 0.8rem;">Demande le moi par mp</p>
+            
+            <div class="code-input-wrapper">
+                <input type="password" class="code-input" id="codeInput" placeholder="Entrez le code" autocomplete="off">
+            </div>
+            
+            <div class="code-error" id="codeError">Code incorrect</div>
+
+            <div class="code-buttons">
+                <button class="code-btn" id="codeCancel">Annuler</button>
+                <button class="code-btn submit" id="codeSubmit">Valider</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- DISCLAIMER Modal -->
+    <div class="disclaimer-modal" id="disclaimerModal">
+        <div class="disclaimer-content">
+            <button class="disclaimer-close" id="disclaimerClose">&times;</button>
+            <h2 class="disclaimer-title">Une petite chose avant...</h2>
+            
+            <div class="disclaimer-text">
+                Salut toi 👋<br><br>
+                Avant de télécharger, je t'invite à prendre le temps de lire ce qui t'attend. Installe-toi confortablement, ferme les notifications, mets-toi à ton aise dans ta chambre... puis ouvre ce fichier tranquillement.<br><br>
+                Ce n'est pas juste un fichier comme les autres. C'est un moment. Un message. Quelque chose qui t'est destiné spécialement.<br><br>
+                Prends le temps qu'il faut. Il n'y a pas de pression. Juste... toi et ce moment.<br><br>
+                <em>À bientôt. 🖤</em>
+            </div>
+
+            <div class="disclaimer-buttons">
+                <button class="disclaimer-btn" id="disclaimerCancel">Annuler</button>
+                <button class="disclaimer-btn proceed" id="disclaimerProceed">J'ai compris, allons-y</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUCCESS Modal -->
+    <div class="success-modal" id="successModal">
+        <div class="success-content">
+            <div class="success-icon">🎉</div>
+            <h2 class="success-title">Téléchargement terminé</h2>
+            <div class="success-text">
+                Joyeux Anniversaire ! 🎂<br><br>
+                Bonne lecture !
+            </div>
+            <button class="success-btn" id="successBtn">Fermer</button>
+        </div>
+    </div>
+
     <main class="stage">
 
         <div id="waiting-state">
@@ -615,7 +937,7 @@
                 <div class="divider-diamond"></div>
                 <div class="divider-line"></div>
             </div>
-            <a href="12maintmts.pdf" id="downloadBtn" class="btn" download>
+            <a href="javascript:void(0)" id="downloadBtn" class="btn">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                 <span>Télécharger le fichier</span>
             </a>
@@ -626,6 +948,9 @@
     <div class="bottom-info" id="bottomInfo">12 . 05 . 2026 — 17:30</div>
 
     <script>
+        // ── DOWNLOAD CODE (Modifier ce code) ──
+        const DOWNLOAD_CODE = '12052026';
+
         const targetDate = new Date(2026, 4, 12, 18, 0, 0).getTime();
 
         const els = {
@@ -680,6 +1005,103 @@
         const rgpdAccept = document.getElementById('rgpdAccept');
         const rgpdReject = document.getElementById('rgpdReject');
 
+        // ── CODE MODAL ──
+        const codeModal = document.getElementById('codeModal');
+        const codeClose = document.getElementById('codeClose');
+        const codeInput = document.getElementById('codeInput');
+        const codeError = document.getElementById('codeError');
+        const codeSubmit = document.getElementById('codeSubmit');
+        const codeCancel = document.getElementById('codeCancel');
+        const downloadBtn = document.getElementById('downloadBtn');
+
+        // ── DISCLAIMER MODAL ──
+        const disclaimerModal = document.getElementById('disclaimerModal');
+        const disclaimerClose = document.getElementById('disclaimerClose');
+        const disclaimerCancel = document.getElementById('disclaimerCancel');
+        const disclaimerProceed = document.getElementById('disclaimerProceed');
+
+        // ── SUCCESS MODAL ──
+        const successModal = document.getElementById('successModal');
+        const successBtn = document.getElementById('successBtn');
+
+        let pendingDownload = null;
+
+        function openCodeModal(callback) {
+            codeInput.value = '';
+            codeError.classList.remove('show');
+            pendingDownload = callback;
+            codeModal.classList.add('active');
+            codeInput.focus();
+        }
+
+        function closeCodeModal() {
+            codeModal.classList.remove('active');
+            codeInput.value = '';
+            codeError.classList.remove('show');
+            pendingDownload = null;
+        }
+
+        function openDisclaimerModal(callback) {
+            pendingDownload = callback;
+            disclaimerModal.classList.add('active');
+        }
+
+        function closeDisclaimerModal() {
+            disclaimerModal.classList.remove('active');
+            pendingDownload = null;
+        }
+
+        function openSuccessModal() {
+            successModal.classList.add('active');
+        }
+
+        function closeSuccessModal() {
+            successModal.classList.remove('active');
+        }
+
+        function verifyCode() {
+            if (codeInput.value === DOWNLOAD_CODE) {
+                closeCodeModal();
+                openDisclaimerModal(() => {
+                    const link = document.createElement('a');
+                    link.href = '12maintmts.pdf';
+                    link.download = '12maintmts.pdf';
+                    link.click();
+                    openSuccessModal();
+                });
+            } else {
+                codeError.classList.add('show');
+                codeInput.value = '';
+            }
+        }
+
+        codeClose.addEventListener('click', closeCodeModal);
+        codeCancel.addEventListener('click', closeCodeModal);
+        codeSubmit.addEventListener('click', verifyCode);
+        codeInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                verifyCode();
+            }
+        });
+
+        disclaimerClose.addEventListener('click', closeDisclaimerModal);
+        disclaimerCancel.addEventListener('click', closeDisclaimerModal);
+        disclaimerProceed.addEventListener('click', () => {
+            const download = pendingDownload;
+            closeDisclaimerModal();
+            if (download) {
+                download();
+            }
+        });
+
+        successBtn.addEventListener('click', closeSuccessModal);
+
+        // Intercepter le clic sur le bouton de téléchargement
+        downloadBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            openCodeModal();
+        });
+
         function getIPAddress() {
             return fetch('https://api.ipify.org?format=json')
                 .then(response => response.json())
@@ -705,16 +1127,20 @@
                 language: navigator.language
             };
 
-            // Stocker en localStorage (JSON)
-            const visits = JSON.parse(localStorage.getItem('visits') || '[]');
-            visits.push(visitData);
-            
-            // Nettoyer les données > 90 jours
-            const ninetyDaysAgo = Date.now() - (90 * 24 * 60 * 60 * 1000);
-            const cleanedVisits = visits.filter(v => new Date(v.timestamp).getTime() > ninetyDaysAgo);
-            
-            localStorage.setItem('visits', JSON.stringify(cleanedVisits));
-            console.log('Visit recorded:', visitData);
+            // Envoyer les données au serveur
+            try {
+                const response = await fetch('record_visit.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(visitData)
+                });
+                const result = await response.json();
+                console.log('Visit recorded on server:', visitData);
+            } catch (error) {
+                console.error('Error recording visit:', error);
+            }
         }
 
         function openRGPDModal() {
