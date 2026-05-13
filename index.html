@@ -760,7 +760,208 @@
         .success-btn:hover {
             background: var(--gold-light);
         }
+
+        /* ── LETTER VIEWER ── */
+        .letter-viewer {
+            position: fixed;
+            inset: 0;
+            background: var(--ink);
+            z-index: 300;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .letter-viewer.active {
+            display: flex;
+        }
+
+        .letter-header {
+            background: rgba(201, 168, 76, 0.05);
+            border-bottom: 1px solid var(--gold-dim);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .letter-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.5rem;
+            color: var(--gold);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .letter-controls {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .letter-btn {
+            padding: 10px 20px;
+            font-family: 'DM Mono', monospace;
+            font-size: 0.65rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            border: 1px solid var(--gold-dim);
+            background: transparent;
+            color: var(--gold);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .letter-btn:hover {
+            background: rgba(201, 168, 76, 0.1);
+            border-color: var(--gold);
+        }
+
+        .letter-close {
+            background: none;
+            border: none;
+            color: var(--gold);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .letter-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 60px 80px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+        }
+
+        .letter-content {
+            max-width: 700px;
+            width: 100%;
+            font-family: 'DM Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--cream);
+            line-height: 2;
+            text-align: justify;
+            background: rgba(201, 168, 76, 0.02);
+            padding: 40px;
+            border: 1px solid rgba(201, 168, 76, 0.1);
+        }
+
+        .letter-content p {
+            margin-bottom: 24px;
+        }
+
+        .letter-content strong {
+            color: var(--gold-light);
+        }
+
+        .letter-content em {
+            font-style: italic;
+            color: var(--gold);
+        }
+
+        .audio-footer {
+            background: rgba(8, 8, 8, 0.95);
+            border-top: 1px solid var(--gold-dim);
+            padding: 20px 40px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .audio-player {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .audio-controls {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .play-btn {
+            background: var(--gold);
+            color: var(--ink);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .play-btn:hover {
+            background: var(--gold-light);
+            transform: scale(1.05);
+        }
+
+        .audio-progress {
+            flex: 1;
+            height: 4px;
+            background: rgba(201, 168, 76, 0.2);
+            border-radius: 2px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .audio-progress-fill {
+            height: 100%;
+            background: var(--gold);
+            border-radius: 2px;
+            width: 0%;
+        }
+
+        .audio-time {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.7rem;
+            color: rgba(201, 168, 76, 0.6);
+            min-width: 80px;
+            text-align: right;
+        }
+
+        .loop-indicator {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--gold);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            padding: 6px 12px;
+            border: 1px solid var(--gold-dim);
+            border-radius: 3px;
+        }
+
+        /* Scrollbar styling */
+        .letter-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .letter-container::-webkit-scrollbar-track {
+            background: rgba(201, 168, 76, 0.05);
+        }
+
+        .letter-container::-webkit-scrollbar-thumb {
+            background: var(--gold-dim);
+            border-radius: 4px;
+        }
+
+        .letter-container::-webkit-scrollbar-thumb:hover {
+            background: var(--gold);
+        }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
 
@@ -836,7 +1037,7 @@
         <div class="code-content">
             <button class="code-close" id="codeClose">&times;</button>
             <h2 class="code-title">Code d'accès requis</h2>
-            <p class="code-title" style="font-size: 0.8rem;">Demande le moi par mp</p>
+            <p class="code-title" style="font-size: 0.8rem;">12052026</p>
             
             <div class="code-input-wrapper">
                 <input type="password" class="code-input" id="codeInput" placeholder="Entrez le code" autocomplete="off">
@@ -881,8 +1082,65 @@
                 Joyeux Anniversaire ! 🎂<br><br>
                 Bonne lecture !
             </div>
-            <button class="success-btn" id="successBtn">Fermer</button>
+            <button class="success-btn" id="successBtn">Lire la lettre</button>
         </div>
+    </div>
+
+    <!-- LETTER VIEWER -->
+    <div class="letter-viewer" id="letterViewer">
+        <div class="letter-header">
+            <h2 class="letter-title">À Elouan</h2>
+            <div class="letter-controls">
+                <button class="letter-btn" id="downloadLetter">Télécharger (PDF)</button>
+                <button class="letter-close" id="letterClose">&times;</button>
+            </div>
+        </div>
+
+        <div class="letter-container">
+            <div class="letter-content">
+                <p>À Elouan,</p>
+
+                <p>Heyy, je suppose que tu n'as sûrement pas reçu beaucoup de lettres de tes potes en général, mais je pense que depuis le temps tu as compris que j'aime écrire et marquer les esprits.</p>
+
+                <p>Cela fait aujourd'hui 5844 jours, 834 semaines, 192 mois, 16 ans que tu es né. Et le compteur de secondes, ce temps qui passe et ne s'arrête jamais, nous rappelle à tous que chaque moment de notre vie est important. Ce temps a cette manière étrange de filer entre nos doigts, de recouvrir peu à peu tous les souvenirs laissés derrière lui. On croise chaque jour des milliers de visages, mais seuls quelques-uns parviennent à nous marquer, à changer cette étincelle.</p>
+
+                <p>Tu vois, ce que je dis rarement tout haut, c'est que cette amitié est devenue un repère solide dans ma vie. Dans ce tourbillon de secondes qui s'enfuient, ta présence fait partie des rares choses qui semblent stables et réelles. Chaque jour, je regarde ces fameuses secondes passer jusqu'à ce qu'on se retrouve. Depuis, chaque vacance paraît longue, avec l'envie de pouvoir passer ce temps qu'on n'a jamais eu assez de passer ensemble. Je regarde défiler chaque jour, chaque vidéo que tu m'envoies, pour enfin te revoir, et pourtant je m'en veux parfois de ne pas être assez moi-même le matin, par peur d'en faire trop.</p>
+
+                <p>On dit que les gens ne sont que de passage, mais il y a des personnes qui s'inscrivent si profondément dans le décor de nos vies qu'on finit par ne plus trop savoir qui on était avant de les connaître. Je me rends compte, au fil du temps, que le cadre scolaire nous bloque et que je me sens largement mieux avec toi dehors que dedans. Et même si on n'a pas encore beaucoup exploré en dehors du lycée, j'aimerais pouvoir profiter de meilleurs moments ensemble et te montrer davantage qui je suis en dehors de ce système. Je ne veux pas que cette amitié reste uniquement scolaire, je veux pouvoir me dire : j'ai tellement hâte de le retrouver dehors.</p>
+
+                <p>J'avoue que je n'aurais jamais imaginé avoir une telle amitié, et dire qu'on s'est vus pour la première fois lors de la remise de prix, je me rappelle encore d'une blague à la con que tu avais faite et qui m'avait fait éclater de rire. Je n'ai jamais regretté ce jour.</p>
+
+                <p>Et oui, il y a des moments où je suis un peu distant, où je fais la tête, c'est surtout par peur que la vie nous emmène dans des directions différentes, comme ça arrive souvent. Mais sache en tout cas que tu es mon meilleur ami et le frère que j'ai toujours voulu avoir. Je sais que j'ai souvent répété ces mots, mais c'est ton anniversaire, ça leur donne encore plus de valeur.</p>
+
+                <p>Alors certes, tu as encore de longues secondes, de longs mois et des années devant toi, mais n'oublie jamais qui compte vraiment pour toi, et rappelle-leur à quel point tu tiens à eux. Parce que derrière un masque peut se cacher une très belle âme.</p>
+
+                <p>Je te souhaite tout le meilleur pour ces belles années à venir. En espérant ne jamais te dire au revoir.</p>
+
+                <p><strong>Joyeux anniversaire.</strong></p>
+
+                <p><em>Axel</em></p>
+            </div>
+        </div>
+
+        <div class="audio-footer">
+            <div class="audio-player">
+                <div class="audio-controls">
+                    <button class="play-btn" id="playBtn">▶</button>
+                </div>
+                <div class="audio-progress" id="audioProgress">
+                    <div class="audio-progress-fill" id="audioProgressFill"></div>
+                </div>
+                <div class="audio-time">
+                    <span id="currentTime">0:00</span> / <span id="duration">0:00</span>
+                </div>
+            </div>
+            <div class="loop-indicator">En boucle</div>
+        </div>
+
+        <audio id="audioPlayer" loop>
+            <source src="background-music.mp3" type="audio/mpeg">
+            Votre navigateur ne supporte pas l'élément audio.
+        </audio>
     </div>
 
     <main class="stage">
@@ -1063,11 +1321,8 @@
             if (codeInput.value === DOWNLOAD_CODE) {
                 closeCodeModal();
                 openDisclaimerModal(() => {
-                    const link = document.createElement('a');
-                    link.href = '12maintmts.pdf';
-                    link.download = '12maintmts.pdf';
-                    link.click();
-                    openSuccessModal();
+                    closeDisclaimerModal();
+                    openLetterViewer();
                 });
             } else {
                 codeError.classList.add('show');
@@ -1095,6 +1350,110 @@
         });
 
         successBtn.addEventListener('click', closeSuccessModal);
+
+        // ── LETTER VIEWER ──
+        const letterViewer = document.getElementById('letterViewer');
+        const letterClose = document.getElementById('letterClose');
+        const downloadLetter = document.getElementById('downloadLetter');
+        const audioPlayer = document.getElementById('audioPlayer');
+        const playBtn = document.getElementById('playBtn');
+        const audioProgress = document.getElementById('audioProgress');
+        const audioProgressFill = document.getElementById('audioProgressFill');
+        const currentTimeEl = document.getElementById('currentTime');
+        const durationEl = document.getElementById('duration');
+
+        function openLetterViewer() {
+            letterViewer.classList.add('active');
+            audioPlayer.play();
+            playBtn.textContent = '⏸';
+        }
+
+        function closeLetterViewer() {
+            letterViewer.classList.remove('active');
+            audioPlayer.pause();
+            playBtn.textContent = '▶';
+        }
+
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return '0:00';
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+
+        // Download PDF from letter viewer
+        downloadLetter.addEventListener('click', () => {
+            const element = document.querySelector('.letter-content');
+            const opt = {
+                margin: [10, 15, 10, 15],
+                filename: 'Lettre_Elouan.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true },
+                jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' },
+                pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+            };
+            
+            const letterHtml = `
+                <div style="font-family: 'Georgia', serif; color: #333; line-height: 1.8; text-align: justify; font-size: 12px;">
+                    <div style="border: 2px solid #c9a84c; padding: 20px; background: #f5efe0; page-break-inside: avoid;">
+                        <h1 style="text-align: center; color: #c9a84c; font-size: 20px; margin-bottom: 20px; letter-spacing: 2px;">À Elouan</h1>
+                        <div>${element.innerHTML}</div>
+                        <div style="margin-top: 30px; text-align: right; page-break-inside: avoid;">
+                            <p style="font-style: italic; color: #7a5e28; margin: 5px 0;">Avec toute mon amitié,</p>
+                            <p style="margin-top: 15px; font-weight: bold;">Axel</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            const doc = document.createElement('div');
+            doc.innerHTML = letterHtml;
+            doc.style.padding = '10px';
+            
+            html2pdf().set(opt).from(doc).save();
+        });
+
+        // Audio controls
+        playBtn.addEventListener('click', () => {
+            if (audioPlayer.paused) {
+                audioPlayer.play();
+                playBtn.textContent = '⏸';
+            } else {
+                audioPlayer.pause();
+                playBtn.textContent = '▶';
+            }
+        });
+
+        audioPlayer.addEventListener('timeupdate', () => {
+            const percentage = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+            audioProgressFill.style.width = percentage + '%';
+            currentTimeEl.textContent = formatTime(audioPlayer.currentTime);
+        });
+
+        audioPlayer.addEventListener('loadedmetadata', () => {
+            durationEl.textContent = formatTime(audioPlayer.duration);
+        });
+
+        audioProgress.addEventListener('click', (e) => {
+            const rect = audioProgress.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const percentage = x / rect.width;
+            audioPlayer.currentTime = percentage * audioPlayer.duration;
+        });
+
+        audioPlayer.addEventListener('ended', () => {
+            audioPlayer.currentTime = 0;
+            audioPlayer.play();
+        });
+
+        letterClose.addEventListener('click', closeLetterViewer);
+
+        // Modifier le bouton de succès pour ouvrir la lettre
+        successBtn.removeEventListener('click', closeSuccessModal);
+        successBtn.addEventListener('click', () => {
+            closeSuccessModal();
+            openLetterViewer();
+        });
 
         // Intercepter le clic sur le bouton de téléchargement
         downloadBtn.addEventListener('click', (e) => {
